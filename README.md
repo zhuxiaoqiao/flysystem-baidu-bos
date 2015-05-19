@@ -1,7 +1,7 @@
 # flysystem-baidu-bos
 Flysystem adapter for Baidu Bos SDK v0.8.1
 
-[![Author](http://img.shields.io/badge/author-@zhuxiaoqiao-blue.svg?style=flat-square)](Author)
+[![Author](http://img.shields.io/badge/author-@zhuxiaoqiao-blue.svg?style=flat-square)](https://github.com/zhuxiaoqiao)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 [![Packagist Version](https://img.shields.io/packagist/v/zhuxiaoqiao/flysystem-baidu-bos.svg?style=flat-square)](https://packagist.org/packages/zhuxiaoqiao/flysystem-baidu-bos)
 [![Total Downloads](https://img.shields.io/packagist/dt/zhuxiaoqiao/flysystem-baidu-bos.svg?style=flat-square)](https://packagist.org/packages/zhuxiaoqiao/flysystem-baidu-bos)
