@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Zhuxiaoqiao\\flysystem-baidu-bos\\": "src/"
+            "Zhuxiaoqiao\\Flysystem\\BaiduBos\\": "src/"
         },
         "files": ["src/BaiduBce.phar"]
     },
