@@ -1,12 +1,11 @@
 <?php
 
-namespace Zhuxiaoqiao\Baidu\Bos;
+namespace Zhuxiaoqiao\Flysystem\BaiduBos;
 
 use BaiduBce\Exception\BceBaseException;
 use BaiduBce\Log\LogFactory;
 use BaiduBce\Services\Bos\BosClient;
 use BaiduBce\Services\Bos\BosOptions;
-use BaiduBce\Util\MimeTypes;
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
