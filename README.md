@@ -10,7 +10,7 @@ Flysystem adapter for Baidu Bos SDK v0.8.1
 ## Installation
 
 ```bash
-composer require "zhuxiaoqiao/flysystem-baidu-bos": "1.0.*@dev"
+composer require "zhuxiaoqiao/flysystem-baidu-bos": "~1.0"
 ```
 
 ## Usage
