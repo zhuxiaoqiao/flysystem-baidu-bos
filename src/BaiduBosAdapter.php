@@ -37,7 +37,7 @@ class BaiduBosAdapter extends AbstractAdapter
         BosOptions::USER_METADATA,
     ];
 
-    protected $pathSeparator = DIRECTORY_SEPARATOR;
+    protected $pathSeparator = '/';
 
     protected $bucket;
     protected $client;
@@ -318,11 +318,13 @@ class BaiduBosAdapter extends AbstractAdapter
                 $response = $this->client->listObjects($this->bucket, $options);
                 foreach ($response->contents as $object) {
                     if ($object->key != $prefix)
+                        $type = (substr($object->key, -1) == $this->pathSeparator) ? 'dir' : 'file';
                         $result[] = [
                             'timestamp' => $object->lastModified,
-                            'type' => 'file',
+                            'type' => $type,
                             'path' => $object->key,
                             'size' => $object->size,
+                            'etag' => $object->eTag,
                         ];
                 }
                 if (isset($response->commonPrefixes)) {
