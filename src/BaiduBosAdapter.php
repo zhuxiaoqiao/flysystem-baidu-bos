@@ -60,6 +60,11 @@ class BaiduBosAdapter extends AbstractAdapter
         return $this->client;
     }
 
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
     /**
      * Write a new file.
      *
@@ -319,13 +324,13 @@ class BaiduBosAdapter extends AbstractAdapter
                 foreach ($response->contents as $object) {
                     if ($object->key != $prefix)
                         $type = (substr($object->key, -1) == $this->pathSeparator) ? 'dir' : 'file';
-                        $result[] = [
-                            'timestamp' => $object->lastModified,
-                            'type' => $type,
-                            'path' => $object->key,
-                            'size' => $object->size,
-                            'etag' => $object->eTag,
-                        ];
+                    $result[] = [
+                        'timestamp' => $object->lastModified,
+                        'type' => $type,
+                        'path' => $object->key,
+                        'size' => $object->size,
+                        'etag' => $object->eTag,
+                    ];
                 }
                 if (isset($response->commonPrefixes)) {
                     foreach ($response->commonPrefixes as $object) {
@@ -433,22 +438,41 @@ class BaiduBosAdapter extends AbstractAdapter
         try {
             if (is_string($body)) {
                 $response = $this->client->putObjectFromString($this->bucket, $path, $body, $options);
-            } else {
+            } else if (is_resource($body)) {
                 if (isset($options['file'])) {
                     $file = $options['file'];
+                } else {
+                    $metadata = stream_get_meta_data($body);
+                    $file = $metadata['uri'];
+                }
+
+                if ($file !== null) {
                     $response = $this->client->putObjectFromFile($this->bucket, $path, $file, $options);
                 } else {
                     if (!isset($options[BosOptions::CONTENT_TYPE])) {
                     }
-                    $contentLength = $options[BosOptions::CONTENT_LENGTH];
-                    unset($options[BosOptions::CONTENT_LENGTH]);
-                    $contentMd5 = $options[BosOptions::CONTENT_MD5];
-                    unset($options[BosOptions::CONTENT_MD5]);
+
+                    if (!isset($options[BosOptions::CONTENT_LENGTH])) {
+                        $contentLength = Util::getStreamSize($body);
+                    } else {
+                        $contentLength = $options[BosOptions::CONTENT_LENGTH];
+                        unset($options[BosOptions::CONTENT_LENGTH]);
+                    }
+
+                    if (!isset($options[BosOptions::CONTENT_MD5])) {
+                        $contentMd5 = base64_encode(HashUtils::md5FromStream($body, 0, $contentLength));
+                    } else {
+                        $contentMd5 = $options[BosOptions::CONTENT_MD5];
+                        unset($options[BosOptions::CONTENT_MD5]);
+                    }
+
                     $response = $this->client->putObject($this->bucket, $path, $body, $contentLength, $contentMd5, $options);
                     if (is_resource($body)) {
                         fclose($body);
                     }
                 }
+            } else {
+                throw new \InvalidArgumentException("$body type should be string or resource");
             }
         } catch (BceBaseException $e) {
             if (stcmp(gettype($e), "BceClientException") == 0) {
