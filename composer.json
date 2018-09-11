@@ -1,5 +1,5 @@
 {
-    "name": "zhuxiaoqiao/flysystem-baidu-bos",
+    "name": "smilestt/flysystem-baidu-bos",
     "description": "Flysystem adapter for Baidu Bos SDK v0.8.1",
     "license": "MIT",
     "authors": [
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Zhuxiaoqiao\\Flysystem\\BaiduBos\\": "src/"
+            "smilestt\\Flysystem\\BaiduBos\\": "src/"
         },
         "files": ["src/BaiduBce.phar"]
     },
